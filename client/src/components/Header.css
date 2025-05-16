@@ -1,0 +1,34 @@
+.header {
+  display: flex;
+  flex-direction: column;
+  width: 100%;
+  background-color: #f8f9fa;
+  padding: 0.5rem;
+  text-align: center;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+  align-items: center;
+}
+
+.header h1 {
+  margin: 0;
+}
+
+.header-navigation ul {
+  list-style: none;
+  padding: 0;
+  display: flex;
+  gap: 2.5rem;
+  flex-wrap: wrap;
+  justify-content: center;
+}
+
+.header-navigation li a {
+  text-decoration: none;
+  color: #007bff;
+  font-weight: 500;
+  transition: color 0.2s ease;
+}
+
+.header-navigation li a:hover {
+  color: #0056b3;
+}

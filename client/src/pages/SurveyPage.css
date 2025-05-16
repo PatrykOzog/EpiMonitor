@@ -1,0 +1,45 @@
+.survey-container {
+  max-width: 960px;
+  margin: 0 auto;
+  padding: 1rem 1rem;
+  text-align: center;
+  background-color: #f8f9fa;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+  border-radius: 0.75rem;
+  margin-top: 2rem;
+  margin-bottom: 2rem;
+}
+
+.survey-container p {
+  margin-bottom: 1.5rem;
+  color: #555;
+}
+
+.input-row {
+  display: flex;
+  gap: 1rem;
+  flex-wrap: wrap;
+}
+
+.input-item-chips {
+  flex-direction: column;
+  width: 100%;
+  margin-bottom: 1rem;
+  font-size: 1rem;
+  flex: 3;
+}
+
+.input-item {
+  width: 100%;
+  margin-bottom: 1rem;
+  padding: 0.5rem;
+  border-radius: 4px;
+  border: 1px solid #ccc;
+  font-size: 1rem;
+  flex: 3;
+}
+
+.input-row input[name="age"],
+.input-row select[name="gender"] {
+  flex: 1;
+}
