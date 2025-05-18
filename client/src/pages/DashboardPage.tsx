@@ -42,9 +42,7 @@ function aggregateBySymptoms(data: { symptoms: string[] }[]) {
     });
   });
 
-  return Object.entries(counts)
-    .map(([name, value]) => ({ name, value }))
-    .sort((a, b) => b.value - a.value);
+  return Object.entries(counts).map(([name, value]) => ({ name, value }));
 }
 
 function aggregateByMonth(data: { created_at: string }[]) {
@@ -242,7 +240,7 @@ export const DashboardPage: React.FC = () => {
                 <ResponsiveContainer width="100%" height={400}>
                   <BarChart data={symptomsDistribution}>
                     <CartesianGrid strokeDasharray="3 3" />
-                    <XAxis dataKey="name" />
+                    <XAxis dataKey="name" hide />
                     <YAxis />
                     <Tooltip />
                     <Bar dataKey="value" fill="#82ca9d" />

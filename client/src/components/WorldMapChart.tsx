@@ -14,7 +14,7 @@ export const WorldMapChart = ({ data }: { data: CountryCount }) => {
 
   const colorScale = scaleLinear<string>()
     .domain([minCount, maxCount])
-    .range(["#d9f0d3", "#8B0000"]);
+    .range(["#d1ffbd", "#062E03"]);
 
   return (
     <ComposableMap>

@@ -54,10 +54,6 @@ export const SurveyPage: React.FC = () => {
       alert("Failed to submit the survey. Please try again.");
     }
   };
-  // TODO:
-  // replace location with a dropdown with a list of cities and nationalities
-  // add a 'is vaccinated' yes/no question
-  // add a timestamp to sql
   return (
     <>
       <Header loggedIn={loggedIn} />
@@ -110,7 +106,7 @@ export const SurveyPage: React.FC = () => {
               </option>
               <option value="male">Male</option>
               <option value="female">Female</option>
-              <option value="other">Pokemon</option>
+              <option value="other">Other</option>
             </select>
           </div>
 

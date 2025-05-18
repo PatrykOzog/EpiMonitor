@@ -6,6 +6,7 @@ import bcrypt from "bcrypt";
 import jwt from "jsonwebtoken";
 import { authenticate } from "./authenticate";
 import { AuthenticatedRequest } from "./types";
+import { insertFakeUsers } from "./generateFakeData";
 
 dotenv.config();
 
@@ -41,7 +42,7 @@ app.post("/api/register", async (req, res) => {
 
 app.post("/api/login", async (req, res) => {
   const { email, password, guest } = req.body;
-
+  // insertFakeUsers(1000).catch(console.error);
   try {
     let user;
 

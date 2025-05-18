@@ -3,7 +3,7 @@ import dotenv from "dotenv";
 
 dotenv.config();
 
-const client = new Client({
+export const client = new Client({
   host: process.env.DB_HOST,
   port: parseInt(process.env.DB_PORT || "5432"),
   user: process.env.DB_USER,
