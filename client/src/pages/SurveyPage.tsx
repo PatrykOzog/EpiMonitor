@@ -5,6 +5,7 @@ import { Header } from "../components/Header";
 import { useAuth } from "../context/AuthContext";
 import { AutocompleteChips } from "../components/AutocompleteChips";
 import { initialFormData } from "../components/variables/initialFormData";
+import { countries } from "../components/variables/countries";
 
 export const SurveyPage: React.FC = () => {
   const { loggedIn } = useAuth();
@@ -29,28 +30,49 @@ export const SurveyPage: React.FC = () => {
     }
   };
 
-  const handleSubmit = (e: React.FormEvent) => {
+  const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
-    console.log("Wysłano dane ankiety:", formData);
-    alert("Dziękujemy za wypełnienie ankiety!");
-  };
 
+    const token = localStorage.getItem("token");
+
+    try {
+      const response = await fetch("http://localhost:5000/api/submit-survey", {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+          Authorization: `Bearer ${token}`,
+        },
+        body: JSON.stringify(formData),
+      });
+
+      if (!response.ok) {
+        throw new Error(`HTTP error! status: ${response.status}`);
+      }
+
+      alert("Thank you for sending the survey!");
+    } catch (err) {
+      alert("Failed to submit the survey. Please try again.");
+    }
+  };
+  // TODO:
+  // replace location with a dropdown with a list of cities and nationalities
+  // add a 'is vaccinated' yes/no question
+  // add a timestamp to sql
   return (
     <>
       <Header loggedIn={loggedIn} />
-      <main className="survey-container">
-        <h2>Epidemiology Survey</h2>
-        <p>
+      <main>
+        <h4 className="text">Epidemiology survey</h4>
+        <p className="text">
           Please complete a short survey regarding your health. The data will
           help us monitor the spread of infectious disease in the region.
         </p>
-
         <form className="survey-form" onSubmit={handleSubmit}>
           <div className="input-row">
             <input
               type="text"
               name="name"
-              placeholder="Name"
+              placeholder="Name (required)"
               required
               value={formData.name}
               onChange={handleChange}
@@ -59,7 +81,7 @@ export const SurveyPage: React.FC = () => {
             <input
               type="text"
               name="surname"
-              placeholder="Surname"
+              placeholder="Surname (required)"
               required
               value={formData.surname}
               onChange={handleChange}
@@ -68,11 +90,13 @@ export const SurveyPage: React.FC = () => {
             <input
               type="number"
               name="age"
-              placeholder="Age"
+              placeholder="Age (required)"
               required
               value={formData.age}
               onChange={handleChange}
               className="input-item"
+              min={1}
+              max={120}
             />
             <select
               name="gender"
@@ -82,53 +106,74 @@ export const SurveyPage: React.FC = () => {
               className="input-item"
             >
               <option value="" disabled hidden>
-                Gender
+                Gender (required)
               </option>
               <option value="male">Male</option>
               <option value="female">Female</option>
               <option value="other">Pokemon</option>
             </select>
           </div>
+
           <div className="input-row">
             <input
               type="text"
-              name="location"
-              placeholder="Miejsce zamieszkania"
-              required
-              value={formData.location}
-              onChange={handleChange}
-              className="input-item"
-            />
-          </div>
-          <div className="input-row">
-            <input
-              type="text"
-              name="phone"
-              placeholder="Phone"
-              required
-              value={formData.phone}
+              name="contact"
+              placeholder="Contact (phone or email)"
+              value={formData.contact}
               onChange={handleChange}
               className="input-item"
             />
             <input
               type="text"
-              name="email"
-              placeholder="E-mail"
-              required
-              value={formData.email}
+              name="city"
+              placeholder="City"
+              value={formData.city}
               onChange={handleChange}
               className="input-item"
             />
+            <select
+              name="country"
+              required
+              value={formData.country}
+              onChange={handleChange}
+              className="input-item"
+            >
+              <option value="" disabled hidden>
+                Country (required)
+              </option>
+              {countries.map((country) => (
+                <option key={country} value={country}>
+                  {country}
+                </option>
+              ))}
+            </select>
           </div>
 
-          <div className="input-row input-item-chips">
-            <AutocompleteChips
-              value={formData.symptoms}
-              onChange={(newSymptoms) =>
-                setFormData((prev) => ({ ...prev, symptoms: newSymptoms }))
-              }
-            />
+          <div className="input-row">
+            <div className="input-item-chips">
+              <AutocompleteChips
+                value={formData.symptoms}
+                onChange={(newSymptoms) =>
+                  setFormData((prev) => ({ ...prev, symptoms: newSymptoms }))
+                }
+              />
+            </div>
+            <select
+              name="vaccination"
+              required
+              value={formData.vaccination}
+              onChange={handleChange}
+              className="input-item"
+            >
+              <option value="" disabled hidden>
+                Are you vaccinated? (required)
+              </option>
+              <option value="yes">Yes</option>
+              <option value="no">No</option>
+              <option value="not sure">Not sure</option>
+            </select>
           </div>
+
           <div className="input-row">
             <textarea
               name="additionalInfo"
@@ -138,8 +183,11 @@ export const SurveyPage: React.FC = () => {
               className="input-item"
             />
           </div>
-          <Button text="Send survey" type="submit" />
-          <Button text="Clear survey" type="button" onClick={handleClear} />
+
+          <div className="buttons">
+            <Button text="Send survey" type="submit" />
+            <Button text="Clear survey" type="button" onClick={handleClear} />
+          </div>
         </form>
       </main>
     </>

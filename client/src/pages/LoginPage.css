@@ -11,6 +11,16 @@
   z-index: 1000;
 }
 
+.login-content {
+  display: flex;
+  flex-direction: column;
+  flex: 1;
+}
+
+.login-content p {
+  margin-bottom: 2vh;
+}
+
 .modal-content {
   background: #f8f9fa;
   padding: 2rem;
@@ -30,10 +40,6 @@
   font-size: 1rem;
 }
 
-.modal-content button {
-  width: 40%;
-}
-
 .input-error {
   border: 2px solid red;
   background-color: #ffe5e5;
@@ -41,4 +47,9 @@
 
 .error-popup {
   color: #842029;
+}
+
+.buttons {
+  display: flex;
+  flex: 1;
 }

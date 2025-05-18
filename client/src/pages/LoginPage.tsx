@@ -66,8 +66,10 @@ const RegisterModal: React.FC<{
         <div style={{ minHeight: "2rem" }}>
           {error && <div className="error-popup">{error}</div>}
         </div>
-        <Button text="Register" type="submit" />
-        <Button text="Close" type="button" onClick={onClose} />
+        <div className="buttons">
+          <Button text="Register" type="submit" />
+          <Button text="Close" type="button" onClick={onClose} />
+        </div>
       </form>
     </div>
   );
@@ -85,20 +87,21 @@ const LoginModal: React.FC<{
     e.preventDefault();
 
     try {
-      const res = await fetch("http://localhost:5000/api/login", {
+      const response = await fetch("http://localhost:5000/api/login", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify({ email, password }),
       });
 
-      const data = await res.json();
-      if (!res.ok) {
-        setError(data.error || "Internal error.");
-        return;
-      }
+      const data = await response.json();
 
-      onLogin();
-      onClose();
+      if (response.ok) {
+        localStorage.setItem("token", data.token);
+        onLogin();
+        onClose();
+      } else {
+        setError(data.error || "Login failed");
+      }
     } catch (err) {
       setError("Internal error");
     }
@@ -126,8 +129,10 @@ const LoginModal: React.FC<{
         <div style={{ minHeight: "2rem" }}>
           {error && <div className="error-popup">{error}</div>}
         </div>
-        <Button text="Log in" type="submit" />
-        <Button text="Close" type="button" onClick={onClose} />
+        <div className="buttons">
+          <Button text="Log in" type="submit" />
+          <Button text="Close" type="button" onClick={onClose} />
+        </div>
       </form>
     </div>
   );
@@ -141,8 +146,39 @@ export const LoginPage: React.FC<{
 
   return (
     <div className="login-content">
-      <Button text="Log in" onClick={() => setShowLoginModal(true)} />
-      <Button text="Register" onClick={() => setShowRegisterModal(true)} />
+      <h4 className="text">Welcome to Epidemiology Monitor</h4>
+      <p className="text">
+        Track and monitor epidemiological data with ease. Log in or create an
+        account to continue.
+      </p>
+      <div className="buttons">
+        <Button text="Log in" onClick={() => setShowLoginModal(true)} />
+        <Button text="Register" onClick={() => setShowRegisterModal(true)} />
+      </div>
+      <div className="buttons">
+        <Button
+          text="Log in as guest"
+          onClick={async () => {
+            try {
+              const response = await fetch("/api/login", {
+                method: "POST",
+                headers: {
+                  "Content-Type": "application/json",
+                },
+                body: JSON.stringify({ guest: true }),
+              });
+
+              const data = await response.json();
+              if (response.ok) {
+                localStorage.setItem("token", data.token);
+                onLogin();
+              } else {
+                alert(data.error || "Login failed");
+              }
+            } catch (err) {}
+          }}
+        />
+      </div>
 
       {showLoginModal && (
         <LoginModal

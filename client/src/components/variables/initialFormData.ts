@@ -1,12 +1,26 @@
+export type InitialFormDataType = {
+  name: string;
+  surname: string;
+  city: string;
+  country: string;
+  age: string;
+  gender: string;
+  contact: string;
+  symptoms: string[];
+  vaccination: string;
+  additionalInfo: string;
+  created_at?: string;
+};
+
 export const initialFormData = {
   name: "",
   surname: "",
-  location: "",
+  city: "",
+  country: "",
   age: "",
   gender: "",
-  phone: "",
-  email: "",
+  contact: "",
   symptoms: [] as string[],
-  exposure: false,
+  vaccination: "",
   additionalInfo: "",
 };
