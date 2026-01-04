@@ -1,4 +1,4 @@
-# Epidemiological Survey App
+# Epidemiological Survey App called EpiMonitor
 
 The complete project consists of three components:
 
